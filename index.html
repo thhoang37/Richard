@@ -230,10 +230,9 @@ a.giftButton:active{
     document.querySelector(".badge").textContent = "🥰 It’s a date!";
     document.querySelector("h1").textContent = "YAY!!! 💞";
     document.querySelector("p").textContent = "Best Valentine ever. See you soon 😘";
-    note.textContent = "Screenshot this and send it to me 💗";
-    no.style.display = "none";
-    yes.textContent = "🥰";
-
+    
+    document.querySelector(".buttons").style.display = "none";
+  
     const giftArea = document.getElementById("giftArea");
     giftArea.innerHTML = `
       <a class="giftButton" href="./gift.html">
