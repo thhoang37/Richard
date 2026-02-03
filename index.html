@@ -161,6 +161,32 @@
       font-size: 1.05rem;
       letter-spacing: 4px;
     }
+
+#giftArea{
+  margin-top: 22px;
+}
+
+a.giftButton{
+  display:inline-block;
+  text-decoration:none;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff4d88, #ff77ab);
+  color: white;
+  box-shadow: 0 14px 32px rgba(0,0,0,.12);
+  transition: transform .12s ease, box-shadow .2s ease;
+}
+
+a.giftButton:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.14);
+}
+
+a.giftButton:active{
+  transform: scale(.98);
+}
+    
   </style>
 </head>
 <body>
@@ -190,6 +216,8 @@
       <button id="no">No 🙈</button>
     </div>
 
+    <div id="giftArea"></div>
+
     <p class="note" id="note"></p>
   </div>
 
@@ -205,6 +233,14 @@
     note.textContent = "Screenshot this and send it to me 💗";
     no.style.display = "none";
     yes.textContent = "🥰";
+
+    const giftArea = document.getElementById("giftArea");
+    giftArea.innerHTML = `
+      <a class="giftButton" href="./gift.html">
+        Click here for your Valentine’s Day gift 🎁
+      </a>
+    `;
+
   });
 
   const messages = [
