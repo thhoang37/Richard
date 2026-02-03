@@ -73,6 +73,29 @@
       border: 1px solid rgba(0,0,0,.08);
       box-shadow: 0 12px 24px rgba(0,0,0,.08);
     }
+
+.gallery{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 20px auto 10px;
+  width: min(720px, 92vw);
+}
+
+@media (max-width: 700px){
+  .gallery{
+    grid-template-columns: 1fr;
+  }
+}
+
+    .img-stack{
+      display:flex;
+      flex-direction:column;
+      gap: 26px;              /* space between images */
+      margin: 24px auto 10px;
+      width: min(720px, 92vw);
+    }
+
   </style>
 </head>
 <body>
@@ -80,10 +103,14 @@
     <h1>Your Valentine’s Day Gift 💝</h1>
     <p>I got this for you 🥰</p>
 
+   <div class="gallery">
     <div class="img-wrap">
-      <!-- IMPORTANT: change gift.jpg to your actual filename -->
-      <img src="./1.jpg" alt="Valentine’s Day gift" />
+      <img src="./gift1.jpg" alt="Valentine’s Day gift 1" />
     </div>
+    <div class="img-wrap">
+      <img src="./gift2.jpg" alt="Valentine’s Day gift 2" />
+    </div>
+  </div>
 
     <div class="buttons">
       <a class="button secondary" href="./index.html">Back</a>
