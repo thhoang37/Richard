@@ -226,23 +226,30 @@ a.giftButton:active{
   const no = document.getElementById("no");
   const yes = document.getElementById("yes");
 
-  yes.addEventListener("click", () => {
-    note.textContent = ""; // CLEAR any "No" hover text
-    
-    document.querySelector(".badge").textContent = "🥰 It’s a date!";
-    document.querySelector("h1").textContent = "YAY!!! 💞";
-    document.querySelector("p").textContent = "Best Valentine ever. Can't wait to see you soon 😘";
-    
-    document.querySelector(".buttons").style.display = "none";
-  
-    const giftArea = document.getElementById("giftArea");
-    giftArea.innerHTML = `
-      <a class="giftButton" href="./gift.html">
-        Click here for your Valentine’s Day gift 🎁
-      </a>
-    `;
+yes.addEventListener("click", () => {
+  // 1) Stop any further "No" behavior + reset its transform
+  noUnlocked = true;                 // prevents dodge logic from running
+  no.style.transform = "translate(0,0)";
+  no.replaceWith(no.cloneNode(true)); // removes all No event listeners
 
-  });
+  // Re-grab the note element and hide it completely
+  note.textContent = "";
+  note.style.display = "none";
+
+  document.querySelector(".badge").textContent = "🥰 It’s a date!";
+  document.querySelector("h1").textContent = "YAY!!! 💞";
+  document.querySelector("p").textContent = "Best Valentine ever. Can't wait to see you soon 😘";
+
+  document.querySelector(".buttons").style.display = "none";
+
+  const giftArea = document.getElementById("giftArea");
+  giftArea.innerHTML = `
+    <a class="giftButton" href="./gift.html">
+      Click here for your Valentine’s Day gift 🎁
+    </a>
+  `;
+});
+
 
   const messages = [
     "Are you suuure? 🥺",
