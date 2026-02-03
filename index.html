@@ -194,37 +194,62 @@
   </div>
 
   <script>
-    const note = document.getElementById("note");
-    const no = document.getElementById("no");
-    const yes = document.getElementById("yes");
+  const note = document.getElementById("note");
+  const no = document.getElementById("no");
+  const yes = document.getElementById("yes");
 
-    yes.addEventListener("click", () => {
-      document.querySelector(".badge").textContent = "🥰 It’s a date!";
-      document.querySelector("h1").textContent = "YAY!!! 💞";
-      document.querySelector("p").textContent = "Best Valentine ever. See you soon 😘";
-      note.textContent = "Screenshot this and send it to me 💗";
-      no.style.display = "none";
-      yes.textContent = "🥰";
-    });
+  yes.addEventListener("click", () => {
+    document.querySelector(".badge").textContent = "🥰 It’s a date!";
+    document.querySelector("h1").textContent = "YAY!!! 💞";
+    document.querySelector("p").textContent = "Best Valentine ever. See you soon 😘";
+    note.textContent = "Screenshot this and send it to me 💗";
+    no.style.display = "none";
+    yes.textContent = "🥰";
+  });
 
-    const messages = [
-      "Are you suuure? 🥺",
-      "Please? 💗",
-      "I’ll owe you snacks 🍫",
-      "Okay, last chance 😭",
-      "You can’t click no forever 😤"
-    ];
-    let i = 0;
+  const messages = [
+    "Are you suuure? 🥺",
+    "Please? 💗",
+    "I’ll owe you snacks 🍫",
+    "Okay, last chance 😭",
+    "Fine… you can click it 🙄"
+  ];
 
-    no.addEventListener("mouseover", () => {
-      setTimeout(() => {
-        const x = Math.random() * 160 - 80;
-        const y = Math.random() * 120 - 60;
-        no.style.transform = `translate(${x}px, ${y}px)`;
-      }, 120);
-              
-      note.textContent = messages[i++ % messages.length];
-    });
-  </script>
+  let i = 0;
+  let noUnlocked = false;
+
+  // Slower, smoother dodging (optional but recommended)
+  no.style.transition = "transform .55s ease-out";
+
+  no.addEventListener("mouseover", () => {
+    // While still in the prompts, dodge
+    if (!noUnlocked) {
+      const x = Math.random() * 160 - 80;
+      const y = Math.random() * 120 - 60;
+      no.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    note.textContent = messages[i];
+
+    // After the final message shows once, unlock clicking
+    if (i >= messages.length - 1) {
+      noUnlocked = true;
+      // Bring it back to a clickable position
+      no.style.transform = "translate(0,0)";
+      note.textContent = "Okay… go ahead then 😌";
+    } else {
+      i++;
+    }
+  });
+
+  // When it’s unlocked, clicking "No" goes to the other page
+  no.addEventListener("click", (e) => {
+    if (!noUnlocked) {
+      e.preventDefault();
+      return;
+    }
+    window.location.href = "./no.html";
+  });
+</script>
 </body>
 </html>
