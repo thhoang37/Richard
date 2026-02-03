@@ -227,6 +227,8 @@ a.giftButton:active{
   const yes = document.getElementById("yes");
 
   yes.addEventListener("click", () => {
+    note.textContent = ""; // CLEAR any "No" hover text
+    
     document.querySelector(".badge").textContent = "🥰 It’s a date!";
     document.querySelector("h1").textContent = "YAY!!! 💞";
     document.querySelector("p").textContent = "Best Valentine ever. Can't wait to see you soon 😘";
