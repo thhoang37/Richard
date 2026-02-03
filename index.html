@@ -4,41 +4,185 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Be my Valentine?</title>
-  <style>
-    body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-      background: #fff7f9;
-      color:#1f1b1c;
-    }
-    .card{
-      width:min(620px, 92vw);
-      background:#fff;
-      border: 1px solid #f1d7df;
-      border-radius: 18px;
-      padding: 34px 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.10);
-      text-align:left;
-    }
-    h1{ margin:0 0 12px; font-size: 2rem; letter-spacing:.2px; }
-    p{ margin:0 0 20px; line-height:1.6; font-size:1.08rem; }
-    .buttons{ display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
-    button{
-      border-radius: 12px; border: 1px solid #ead0d8;
-      padding: 12px 16px; font-size: 1rem; cursor:pointer;
-      background:#fff;
-      transition: transform .08s ease, background .2s ease;
-    }
-    button:active{ transform: scale(.98); }
-    #yes{ background:#1f1b1c; color:#fff; border-color:#1f1b1c; }
-    #no{ background:#fff; }
-    .note{ opacity:.75; font-size:.95rem; }
-  </style>
 
+  <!-- Optional: nicer font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --pink:#ff4d88;
+      --pink2:#ff77ab;
+      --ink:#211a1d;
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      overflow:hidden;
+      background: radial-gradient(1200px 600px at 20% 10%, #ffe1ef 0%, rgba(255,225,239,0) 60%),
+                  radial-gradient(900px 600px at 85% 20%, #e8f6ff 0%, rgba(232,246,255,0) 55%),
+                  radial-gradient(900px 700px at 30% 90%, #fff2d7 0%, rgba(255,242,215,0) 55%),
+                  linear-gradient(180deg, #fff7fb 0%, #ffffff 60%, #fff7fb 100%);
+    }
+
+    /* Soft floating blobs behind */
+    .blob{
+      position:fixed;
+      width:520px; height:520px;
+      border-radius:999px;
+      filter: blur(40px);
+      opacity:.55;
+      z-index:0;
+      animation: drift 12s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .blob.b1{ left:-120px; top:-120px; background: radial-gradient(circle, rgba(255,77,136,.55), rgba(255,77,136,0) 60%); }
+    .blob.b2{ right:-160px; top:40px; background: radial-gradient(circle, rgba(120,210,255,.55), rgba(120,210,255,0) 60%); animation-duration: 15s; }
+    .blob.b3{ left:10%; bottom:-220px; background: radial-gradient(circle, rgba(255,202,120,.55), rgba(255,202,120,0) 60%); animation-duration: 18s; }
+
+    @keyframes drift{
+      0%,100%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(22px,-18px) scale(1.05); }
+    }
+
+    /* Floating hearts */
+    .hearts{
+      position:fixed; inset:0;
+      z-index:0;
+      pointer-events:none;
+      opacity:.7;
+    }
+    .heart{
+      position:absolute;
+      font-size:18px;
+      animation: rise 10s linear infinite;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.08));
+    }
+    @keyframes rise{
+      0%{ transform: translateY(20vh) scale(.9); opacity:0; }
+      10%{ opacity:.9; }
+      100%{ transform: translateY(-110vh) scale(1.15); opacity:0; }
+    }
+
+    /* Card */
+    .card{
+      position:relative;
+      z-index:1;
+      width:min(640px, 92vw);
+      padding: 34px 28px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,77,136,.18);
+      box-shadow:
+        0 30px 120px rgba(255,77,136,.15),
+        0 16px 50px rgba(0,0,0,.12);
+      text-align:center;
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,77,136,.10);
+      border: 1px solid rgba(255,77,136,.18);
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-family: Fraunces, ui-serif, Georgia, serif;
+      font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+      letter-spacing: .2px;
+    }
+    p{
+      margin:0;
+      font-size: 1.12rem;
+      line-height: 1.45;
+      opacity:.92;
+    }
+
+    .buttons{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 22px;
+    }
+
+    button{
+      border: 1px solid rgba(0,0,0,.06);
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+      box-shadow: 0 12px 26px rgba(0,0,0,.08);
+      background: rgba(255,255,255,.9);
+    }
+    button:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(0,0,0,.10);
+    }
+    button:active{ transform: translateY(0) scale(.98); }
+
+    #yes{
+      color:white;
+      border-color: rgba(255,255,255,.16);
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+    }
+    #no{
+      background: rgba(255,255,255,.95);
+    }
+
+    .note{
+      margin-top: 16px;
+      font-size: .98rem;
+      opacity:.78;
+      min-height: 1.2em;
+    }
+
+    /* Cute divider sparkles */
+    .sparkles{
+      margin: 14px auto 6px;
+      opacity:.7;
+      font-size: 1.05rem;
+      letter-spacing: 4px;
+    }
+  </style>
 </head>
 <body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="hearts" aria-hidden="true">
+    <div class="heart" style="left:10%; animation-delay:0s;">💗</div>
+    <div class="heart" style="left:22%; animation-delay:2s; font-size:22px;">💖</div>
+    <div class="heart" style="left:35%; animation-delay:4s;">💞</div>
+    <div class="heart" style="left:52%; animation-delay:1s; font-size:20px;">💘</div>
+    <div class="heart" style="left:68%; animation-delay:3s;">💓</div>
+    <div class="heart" style="left:80%; animation-delay:5s; font-size:24px;">💝</div>
+    <div class="heart" style="left:90%; animation-delay:6s;">💗</div>
+  </div>
+
   <div class="card">
-    <h1>Hi My Sweet Love💘</h1>
+    <div class="badge">💌 A tiny question…</div>
+
+    <h1>Hey [NAME] 💘</h1>
+    <div class="sparkles">✦ ✧ ✦</div>
     <p>Will you be my Valentine?</p>
 
     <div class="buttons">
@@ -55,9 +199,10 @@
     const yes = document.getElementById("yes");
 
     yes.addEventListener("click", () => {
+      document.querySelector(".badge").textContent = "🥰 It’s a date!";
       document.querySelector("h1").textContent = "YAY!!! 💞";
       document.querySelector("p").textContent = "Best Valentine ever. See you soon 😘";
-      note.textContent = "";
+      note.textContent = "Screenshot this and send it to me 💗";
       no.style.display = "none";
       yes.textContent = "🥰";
     });
@@ -65,16 +210,15 @@
     const messages = [
       "Are you suuure? 🥺",
       "Please? 💗",
-      "I’ll buy you some snacks 🍫",
+      "I’ll owe you snacks 🍫",
       "Okay, last chance 😭",
       "You can’t click no forever 😤"
     ];
     let i = 0;
 
     no.addEventListener("mouseover", () => {
-      // Make the "No" button dodge the mouse a bit
-      const x = Math.random() * 240 - 120;
-      const y = Math.random() * 160 - 80;
+      const x = Math.random() * 260 - 130;
+      const y = Math.random() * 180 - 90;
       no.style.transform = `translate(${x}px, ${y}px)`;
       note.textContent = messages[i++ % messages.length];
     });
